@@ -2,10 +2,6 @@
 import { ArrowUpRight } from 'lucide-vue-next'
 
 defineProps({
-  // text: {
-  //   type: String,
-  //   required: true
-  // },
   href: {
     type: String,
     required: true
