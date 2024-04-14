@@ -52,10 +52,6 @@ const memberYear = computed(() => {
             </li>
           </ul>
         </div>
-
-        <!-- <pre>
-          {{ $props.profile }}
-        </pre> -->
       </template>
     </Card>
   </div>
