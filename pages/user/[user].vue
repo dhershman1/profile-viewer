@@ -1,5 +1,4 @@
 <script setup>
-const profileStore = useProfileStore()
 const route = useRoute()
 
 const profile = await useFetch(`https://api.github.com/users/${route.params.user}`, {
@@ -39,6 +38,8 @@ const repos = await useFetch(profile.data.value.repos_url, {
     <pre>
       {{ profile.data }}
     </pre>
+
+    <Anchor :href="'#'">dhershman1</Anchor>
 
     <ol>
       <li v-for="repo in repos.data.value" :key="repo.id">

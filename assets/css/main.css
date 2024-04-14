@@ -1,0 +1,62 @@
+:root {
+  --white: hsl(0, 0%, 100%);
+  --jet: hsl(120, 1%, 17%);
+  --dark: hsl(208, 37%, 20%);
+  --accent: hsl(228, 64%, 52%);
+  --highlight: hsl(228, 64%, 64%);
+  --shadow: hsla(0, 0%, 0%, 0.13);
+  --lightgrey: hsl(60, 3%, 93%);
+  background-color: var(--lightgrey);
+  color: var(--jet);
+
+  ::selection {
+    background-color: var(--highlight);
+    color: var(--white);
+  }
+}
+
+html,
+body {
+  height: 100vh;
+  margin: 0;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Link styles */
+
+.link__anchor {
+  border-radius: 4px;
+  transition: all 0.16s linear;
+  display: flex;
+  align-items: center;
+  padding: 0.1rem 0.2rem;
+}
+
+.link__wrapper {
+  display: inline-block
+}
+
+.link__icon {
+  transition: all 0.16s linear;
+  opacity: 0;
+  width: 1rem;
+  height: 1rem;
+}
+
+.link__anchor:hover {
+  background-color: var(--lightgrey);
+}
+
+.link__anchor:hover .link__icon {
+  opacity: 1;
+}
+
+/* Card Styles */
