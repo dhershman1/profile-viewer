@@ -44,6 +44,10 @@ const memberYear = computed(() => {
               <p>{{ $props.profile.location }}</p>
             </li>
             <li>
+              <h3>Public Repositories</h3>
+              <p>{{ $props.profile.public_repos }}</p>
+            </li>
+            <li>
               <h3>Website</h3>
               <Anchor class="website" :href="$props.profile.blog">{{ $props.profile.blog }}</Anchor>
             </li>

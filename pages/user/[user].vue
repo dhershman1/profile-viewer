@@ -36,11 +36,17 @@ const repos = await useFetch(profile.data.value.repos_url, {
     <section>
       <Profile :profile="profile.data.value" />
     </section>
-    <div>
+    <section>
+      <div class="filters">
+
+      </div>
       <ol>
         <li v-for="repo in repos.data.value" :key="repo.id">
           {{ repo.name }}
           <ul>
+            <li>
+              {{ repo.description }}
+            </li>
             <li>
               Stars: {{ repo.stargazers_count }}
             </li>
@@ -53,7 +59,7 @@ const repos = await useFetch(profile.data.value.repos_url, {
           </ul>
         </li>
       </ol>
-    </div>
+    </section>
   </div>
 </template>
 
