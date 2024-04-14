@@ -1,13 +1,9 @@
 <script setup>
+const router = useRouter()
 const userSearch = ref('')
-const userData = ref({})
 
-async function search () {
-  console.log(userSearch.value)
-
-  const data = await $fetch(`https://api.github.com/users/${userSearch.value}`)
-
-  userData.value = data
+function search () {
+  router.push(`/user/${userSearch.value}`)
 }
 </script>
 
@@ -17,9 +13,6 @@ async function search () {
       <input v-model="userSearch" type="text" />
       <button>Search</button>
     </form>
-    <pre>
-      {{ userData }}
-    </pre>
   </div>
 </template>
 
