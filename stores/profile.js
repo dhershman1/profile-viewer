@@ -11,9 +11,9 @@ export const useProfileStore = defineStore('profile', () => {
       }
     })
 
-    repos.value = data
+    repos.value = data.value
 
-    return data
+    return data.value
   }
 
   async function fetchProfile (user) {
@@ -40,9 +40,9 @@ export const useProfileStore = defineStore('profile', () => {
       ]
     })
 
-    profile.value = data
+    profile.value = data.value
 
-    return data
+    return data.value
   }
 
   return {

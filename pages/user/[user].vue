@@ -6,69 +6,18 @@ import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 const PER_PAGE = 20
 const route = useRoute()
 const search = ref('')
-const sortBy = ref('pushed_at')
+const sortBy = ref('pushed')
+const profileStore = useProfileStore()
 
-const { data: profile } = await useFetch(`https://api.github.com/users/${route.params.user}`, {
-      pick: [
-        'login',
-        'location',
-        'avatar_url',
-        'id',
-        'name',
-        'company',
-        'blog',
-        'bio',
-        'public_repos',
-        'public_gists',
-        'followers',
-        'following',
-        'hireable',
-        'created_at',
-        'repos_url',
-        'starred_url',
-        'organizations_url',
-        'html_url'
-      ]
-    })
-const { data: repos } = await useFetch(profile.value.repos_url, {
-  query: {
-    page: 1,
-    per_page: PER_PAGE,
-    type: 'public',
-    sort: 'pushed'
-  }
-})
+await profileStore.fetchProfile(route.params.user)
+await profileStore.fetchRepos(route.params.user, sortBy.value)
 
 const totalPages = computed(() => {
-  return Math.ceil(profile.value.public_repos / PER_PAGE)
+  return Math.ceil(profileStore.profile.public_repos / PER_PAGE)
 })
 
 const filteredRepos = computed(() => {
-  return repos.value.filter(({ name }) => fuzzySearch(search.value, name)).sort((a, b) => {
-    if (a.pushed_at > b.pushed_at) {
-      return -1
-    }
-
-    if (b.pushed_at > a.pushed_at) {
-      return 1
-    }
-
-    return 0
-  })
-})
-
-const sortedRepos = computed(() => {
-  return filteredRepos.value.sort((a, b) => {
-    if (a[sortBy.value] > b[sortBy.value]) {
-      return -1
-    }
-
-    if (b[sortBy.value] > a[sortBy.value]) {
-      return 1
-    }
-
-    return 0
-  })
+  return profileStore.repos.filter(({ name }) => fuzzySearch(search.value, name))
 })
 
 function getIcon (lang) {
@@ -90,12 +39,24 @@ function getIcon (lang) {
       return icons[`${lang}Icon`]
   }
 }
+
+watch(sortBy, async (newSort, oldSort) => {
+  if (newSort === oldSort) {
+    return
+  }
+
+  try {
+    await profileStore.fetchRepos(route.params.user, newSort)
+  } catch (err) {
+    console.error(err)
+  }
+})
 </script>
 
 <template>
   <div class="user">
     <section class="user__profile">
-      <Profile :profile="profile" />
+      <Profile :profile="profileStore.profile" />
     </section>
     <section class="user__repos">
       <div class="repos">
@@ -104,11 +65,10 @@ function getIcon (lang) {
             <div class="filters">
               <section class="filters__sort">
                 <select v-model="sortBy">
-                  <option value="pushed">Updated</option>
+                  <option value="pushed">Pushed</option>
                   <option value="created">Created</option>
-                  <option value="stargazers_count">Stars</option>
-                  <option value="forks_count">Forks</option>
-                  <option value="open_issues">Issues</option>
+                  <option value="updated">Updated</option>
+                  <option value="full_name">Name</option>
                 </select>
               </section>
               <section class="filters__search">
@@ -125,7 +85,7 @@ function getIcon (lang) {
             <ul class="repos__list">
               <li
                 class="repos__item"
-                v-for="repo in sortedRepos"
+                v-for="repo in filteredRepos"
                 :key="repo.id"
               >
                 <section class="repo">
