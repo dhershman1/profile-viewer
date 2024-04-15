@@ -9,7 +9,7 @@ useHead({
 <template>
   <div>
     <nav>
-      <NuxtLink to="/">Dusty Github Profile Viewer</NuxtLink>
+      <NuxtLink to="/">Github Profile Viewer</NuxtLink>
       <Search />
     </nav>
     <NuxtPage />
