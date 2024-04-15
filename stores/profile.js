@@ -2,11 +2,18 @@ export const useProfileStore = defineStore('profile', () => {
   const profile = ref({})
   const repos = ref([])
 
-  async function fetchRepos (user) {
-    console.log(profile.value)
-    const { data } = await useFetch(`https://api.github.com/users/${user}/repos?per_page=100&page=1`)
+  async function fetchRepos (user, sort = 'pushed', page = 1) {
+    const { data } = await useFetch(`https://api.github.com/users/${user}/repos`, {
+      query: {
+        per_page: 20,
+        page,
+        sort
+      }
+    })
 
     repos.value = data
+
+    return data
   }
 
   async function fetchProfile (user) {
@@ -34,6 +41,8 @@ export const useProfileStore = defineStore('profile', () => {
     })
 
     profile.value = data
+
+    return data
   }
 
   return {
