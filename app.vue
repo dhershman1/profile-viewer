@@ -8,6 +8,10 @@ useHead({
 
 <template>
   <div>
+    <nav>
+      <NuxtLink to="/">Dusty Github Profile Viewer</NuxtLink>
+      <Search />
+    </nav>
     <NuxtPage />
   </div>
 </template>

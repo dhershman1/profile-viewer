@@ -20,6 +20,7 @@
 html,
 body {
   height: 100vh;
+  margin: 0;
 }
 
 html {
@@ -29,6 +30,16 @@ html {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--dark);
+  color: var(--lightgrey);
+  margin-bottom: 1rem;
 }
 
 /* Link styles */
