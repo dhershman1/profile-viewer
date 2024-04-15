@@ -5,6 +5,7 @@ import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 
 const route = useRoute()
 const search = ref('')
+const sortBy = ref('pushed_at')
 
 const profile = await useFetch(`https://api.github.com/users/${route.params.user}`, {
       pick: [
@@ -36,7 +37,17 @@ const repos = await useFetch(profile.data.value.repos_url, {
 })
 
 const filteredRepos = computed(() => {
-  return repos.data.value.filter(({ name }) => fuzzySearch(search.value, name))
+  return repos.data.value.filter(({ name }) => fuzzySearch(search.value, name)).sort((a, b) => {
+    if (a.pushed_at > b.pushed_at) {
+      return -1
+    }
+
+    if (b.pushed_at > a.pushed_at) {
+      return 1
+    }
+
+    return 0
+  })
 })
 
 function getIcon (lang) {
@@ -68,10 +79,20 @@ function getIcon (lang) {
         <Card has-actions>
           <template #actions>
             <div class="filters">
+              <section class="filters__sort">
+                <select v-model="sortBy">
+                  <option value="pushed_at">Updated</option>
+                  <option value="created_at">Created</option>
+                  <option value="stargazers_count">Stars</option>
+                  <option value="forks_count">Forks</option>
+                  <option value="open_issues">Issues</option>
+                </select>
+              </section>
               <section class="filters__search">
                 <input
                   class="filters__input"
                   type="text"
+                  placeholder="Search Repository"
                   v-model="search"
                 />
               </section>
@@ -89,10 +110,15 @@ function getIcon (lang) {
                     {{ repo.name }}
                   </Anchor>
                   <p class="repo__description">{{ repo.description }}</p>
-                  <p class="repo__lang">
-                    <component :is="getIcon(repo.language)" />
-                    {{ repo.language }}
-                  </p>
+                  <div class="repo__lang-updated">
+                    <p class="repo__lang">
+                      <component :is="getIcon(repo.language)" />
+                      {{ repo.language }}
+                    </p>
+                    <p class="repo__updated">
+                      Updated {{ useTimeAgo(repo.pushed_at) }}
+                    </p>
+                  </div>
                 </section>
                 <section class="stats">
                   <p><Star /> {{ repo.stargazers_count }} Stars</p>
@@ -112,9 +138,8 @@ function getIcon (lang) {
 .user {
   display: grid;
   align-items: flex-start;
-  justify-content: center;
-  gap: 1rem;
   grid-template-columns: 30% 70%;
+  justify-items: center;
 }
 
 .user .user__profile {
@@ -123,7 +148,7 @@ function getIcon (lang) {
 }
 
 .repositories {
-  margin-right: 0.5rem;
+  width: 85%;
 }
 
 .repos__list {
@@ -166,6 +191,19 @@ function getIcon (lang) {
   height: 14px;
 }
 
+.repo__lang-updated {
+  display: flex;
+  gap: 1rem;
+}
+
+.repo__lang-updated p {
+  margin: 0;
+}
+
+.repo__updated {
+  font-size: 12px;
+}
+
 .stats {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -174,10 +212,10 @@ function getIcon (lang) {
 }
 
 .stats p {
-  vertical-align: middle;
   font-size: 16px;
   margin: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -186,6 +224,24 @@ function getIcon (lang) {
   height: 16px;
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.filters__input {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--lightgrey);
+  border-radius: 6px;
+  box-shadow: hsl(216, 12%, 92%) 0px 1px 3px -1px;
+}
+
+.filters__input:focus {
+  border-color: var(--accent);
+  box-shadow: var(--accent) 0px 0px 0px 1px;
 }
 
 @media only screen and (max-width: 768px) {
