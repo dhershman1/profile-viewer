@@ -5,7 +5,7 @@ export const useProfileStore = defineStore('profile', () => {
   async function fetchRepos (user, sort = 'pushed', page = 1) {
     const { data } = await useFetch(`https://api.github.com/users/${user}/repos`, {
       query: {
-        per_page: 20,
+        per_page: 100,
         page,
         sort
       }
