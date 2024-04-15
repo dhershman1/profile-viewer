@@ -63,7 +63,7 @@ const memberYear = computed(() => {
 
 <style scoped>
 .profile {
-  margin-left: 0.5rem;
+  width: 100%;
 }
 
 h2 {

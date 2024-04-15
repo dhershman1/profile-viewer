@@ -140,11 +140,13 @@ function getIcon (lang) {
   align-items: flex-start;
   grid-template-columns: 30% 70%;
   justify-items: center;
+  margin: 1rem;
 }
 
 .user .user__profile {
   position: sticky;
   top: 0;
+  width: 100%;
 }
 
 .repositories {
