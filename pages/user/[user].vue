@@ -50,6 +50,20 @@ const filteredRepos = computed(() => {
   })
 })
 
+const sortedRepos = computed(() => {
+  return filteredRepos.value.sort((a, b) => {
+    if (a[sortBy.value] > b[sortBy.value]) {
+      return -1
+    }
+
+    if (b[sortBy.value] > a[sortBy.value]) {
+      return 1
+    }
+
+    return 0
+  })
+})
+
 function getIcon (lang) {
   // This isn't a great function, we need a better way to dynamically grab icons from simple icons
   if (!lang) {
@@ -63,6 +77,8 @@ function getIcon (lang) {
       return icons['Css3Icon']
     case 'vue':
       return icons['VueDotjsIcon']
+    case 'apex':
+      return icons['SalesforceIcon']
     default:
       return icons[`${lang}Icon`]
   }
@@ -102,7 +118,7 @@ function getIcon (lang) {
             <ul class="repos__list">
               <li
                 class="repos__item"
-                v-for="repo in filteredRepos"
+                v-for="repo in sortedRepos"
                 :key="repo.id"
               >
                 <section class="repo">
