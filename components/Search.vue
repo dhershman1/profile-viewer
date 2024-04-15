@@ -10,10 +10,20 @@ function search () {
 <template>
   <div>
     <form @submit.prevent="search">
-      <input v-model="userSearch" type="text" />
-      <button>Search</button>
+      <input class="control" v-model="userSearch" type="text" />
+      <button class="btn">Search</button>
     </form>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+</style>

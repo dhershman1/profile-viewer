@@ -97,7 +97,7 @@ function getIcon (lang) {
     <section class="user__profile">
       <Profile :profile="profile" />
     </section>
-    <section class="repositories">
+    <section class="user__repos">
       <div class="repos">
         <Card has-actions>
           <template #actions>
@@ -161,18 +161,13 @@ function getIcon (lang) {
 .user {
   display: grid;
   align-items: flex-start;
-  grid-template-columns: 30% 70%;
-  justify-items: center;
+  grid-template-columns: 1fr 2fr;
   margin: 1rem;
 }
 
 .user .user__profile {
   position: sticky;
-  top: 0;
-  width: 100%;
-}
-
-.repositories {
+  top: 1rem;
   width: 85%;
 }
 
@@ -276,9 +271,11 @@ function getIcon (lang) {
 
   .user .user__profile {
     position: inherit;
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
-  .repositories {
+  .user__repos {
     width: 100%;
   }
 }
