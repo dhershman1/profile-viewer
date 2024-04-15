@@ -3,11 +3,12 @@ import { fuzzySearch } from 'kyanite'
 import * as icons from 'vue3-simple-icons'
 import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 
+const PER_PAGE = 20
 const route = useRoute()
 const search = ref('')
 const sortBy = ref('pushed_at')
 
-const profile = await useFetch(`https://api.github.com/users/${route.params.user}`, {
+const { data: profile } = await useFetch(`https://api.github.com/users/${route.params.user}`, {
       pick: [
         'login',
         'location',
@@ -29,15 +30,21 @@ const profile = await useFetch(`https://api.github.com/users/${route.params.user
         'html_url'
       ]
     })
-const repos = await useFetch(profile.data.value.repos_url, {
+const { data: repos } = await useFetch(profile.value.repos_url, {
   query: {
     page: 1,
-    per_page: profile.data.value.public_repos
+    per_page: PER_PAGE,
+    type: 'public',
+    sort: 'pushed'
   }
 })
 
+const totalPages = computed(() => {
+  return Math.ceil(profile.value.public_repos / PER_PAGE)
+})
+
 const filteredRepos = computed(() => {
-  return repos.data.value.filter(({ name }) => fuzzySearch(search.value, name)).sort((a, b) => {
+  return repos.value.filter(({ name }) => fuzzySearch(search.value, name)).sort((a, b) => {
     if (a.pushed_at > b.pushed_at) {
       return -1
     }
@@ -88,7 +95,7 @@ function getIcon (lang) {
 <template>
   <div class="user">
     <section class="user__profile">
-      <Profile :profile="profile.data.value" />
+      <Profile :profile="profile" />
     </section>
     <section class="repositories">
       <div class="repos">
@@ -97,8 +104,8 @@ function getIcon (lang) {
             <div class="filters">
               <section class="filters__sort">
                 <select v-model="sortBy">
-                  <option value="pushed_at">Updated</option>
-                  <option value="created_at">Created</option>
+                  <option value="pushed">Updated</option>
+                  <option value="created">Created</option>
                   <option value="stargazers_count">Stars</option>
                   <option value="forks_count">Forks</option>
                   <option value="open_issues">Issues</option>
