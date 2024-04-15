@@ -84,7 +84,6 @@ a {
   align-items: center;
   display: flex;
   padding: 0.5rem;
-  justify-content: end;
 }
 
 .card__main {
