@@ -64,7 +64,7 @@ watch(sortBy, async (newSort, oldSort) => {
           <template #actions>
             <div class="filters">
               <section class="filters__sort">
-                <select v-model="sortBy">
+                <select class="control" v-model="sortBy">
                   <option value="pushed">Pushed</option>
                   <option value="created">Created</option>
                   <option value="updated">Updated</option>
@@ -111,6 +111,9 @@ watch(sortBy, async (newSort, oldSort) => {
               </li>
             </ul>
           </template>
+          <template #text>
+            TODO: Pagination
+          </template>
         </Card>
       </div>
     </section>
@@ -123,6 +126,10 @@ watch(sortBy, async (newSort, oldSort) => {
   align-items: flex-start;
   grid-template-columns: 1fr 2fr;
   margin: 1rem;
+}
+
+.pagination {
+  display: flex;
 }
 
 .user .user__profile {
@@ -219,11 +226,6 @@ watch(sortBy, async (newSort, oldSort) => {
   box-shadow: hsl(216, 12%, 92%) 0px 1px 3px -1px;
 }
 
-.filters__input:focus {
-  border-color: var(--accent);
-  box-shadow: var(--accent) 0px 0px 0px 1px;
-}
-
 @media only screen and (max-width: 768px) {
   .user {
     grid-template-columns: 1fr;
@@ -237,6 +239,10 @@ watch(sortBy, async (newSort, oldSort) => {
 
   .user__repos {
     width: 100%;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
   }
 }
 </style>
