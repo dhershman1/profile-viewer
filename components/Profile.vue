@@ -1,15 +1,10 @@
 <script setup>
 import { Github } from 'lucide-vue-next'
 
-const props = defineProps({
-  profile: {
-    type: Object,
-    default: () => ({})
-  }
-})
+const profileStore = useProfileStore()
 
 const memberYear = computed(() => {
-  return new Date(props.profile.created_at).getFullYear()
+  return new Date(profileStore.profile.created_at).getFullYear()
 })
 </script>
 
@@ -18,38 +13,38 @@ const memberYear = computed(() => {
     <Card>
       <template #main>
         <div class="name">
-          <img class="avatar" :src="$props.profile.avatar_url" alt="Avatar" />
+          <img class="avatar" :src="profileStore.profile.avatar_url" alt="Avatar" />
           <section class="name__heading">
-            <h2>{{ $props.profile.name }}</h2>
-            <Anchor class="github" :href="$props.profile.html_url">
-              <Github class="github__icon" /> {{ $props.profile.login }}
+            <h2>{{ profileStore.profile.name }}</h2>
+            <Anchor class="github" :href="profileStore.profile.html_url">
+              <Github class="github__icon" /> {{ profileStore.profile.login }}
             </Anchor>
           </section>
         </div>
         <div class="details">
           <ul class="details__list">
             <li class="bio">
-              <p>{{ $props.profile.bio }}</p>
+              <p>{{ profileStore.profile.bio }}</p>
             </li>
             <li>
               <h3>Followers</h3>
-              <p>{{ $props.profile.followers }}</p>
+              <p>{{ profileStore.profile.followers }}</p>
             </li>
             <li>
               <h3>Following</h3>
-              <p>{{ $props.profile.following }}</p>
+              <p>{{ profileStore.profile.following }}</p>
             </li>
             <li>
               <h3>Location</h3>
-              <p>{{ $props.profile.location }}</p>
+              <p>{{ profileStore.profile.location }}</p>
             </li>
             <li>
               <h3>Public Repositories</h3>
-              <p>{{ $props.profile.public_repos }}</p>
+              <p>{{ profileStore.profile.public_repos }}</p>
             </li>
             <li>
               <h3>Website</h3>
-              <Anchor class="website" :href="$props.profile.blog">{{ $props.profile.blog }}</Anchor>
+              <Anchor class="website" :href="profileStore.profile.blog">{{ profileStore.profile.blog }}</Anchor>
             </li>
             <li class="member-since">
               Github member since {{ memberYear }}

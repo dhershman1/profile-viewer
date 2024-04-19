@@ -10,5 +10,18 @@ const page = ref(1)
 </script>
 
 <template>
-  <h1>DO something</h1>
+  <ul>
+    <li>
+      <button type="button">
+        First
+      </button>
+    </li>
+    <li>
+      <button
+        type="button"
+      >
+        Previous
+      </button>
+    </li>
+  </ul>
 </template>

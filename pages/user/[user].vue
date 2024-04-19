@@ -9,9 +9,14 @@ const search = ref('')
 const sortBy = ref('pushed')
 const profileStore = useProfileStore()
 
-await profileStore.fetchProfile(route.params.user)
-await profileStore.fetchRepos(route.params.user, sortBy.value)
-
+try {
+  await Promise.all([
+    profileStore.fetchProfile(route.params.user),
+    profileStore.fetchRepos(route.params.user, sortBy.value)
+  ])
+} catch (err) {
+  console.error(err)
+}
 const totalPages = computed(() => {
   return Math.ceil(profileStore.profile.public_repos / PER_PAGE)
 })
@@ -56,10 +61,11 @@ watch(sortBy, async (newSort, oldSort) => {
 <template>
   <div class="user">
     <section class="user__profile">
-      <Profile :profile="profileStore.profile" />
+      <Profile />
     </section>
     <section class="user__repos">
-      <div class="repos">
+      <div v-if="profileStore.loading.repos" class="loader"></div>
+      <div v-else class="repos">
         <Card has-actions>
           <template #actions>
             <div class="filters">
