@@ -5,6 +5,7 @@ import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 
 const PER_PAGE = 20
 const route = useRoute()
+const sorting = ref(false)
 const search = ref('')
 const sortBy = ref('pushed')
 const profileStore = useProfileStore()
@@ -50,11 +51,19 @@ watch(sortBy, async (newSort, oldSort) => {
     return
   }
 
+  sorting.value = true
+
   try {
     await profileStore.fetchRepos(route.params.user, newSort)
   } catch (err) {
     console.error(err)
+  } finally {
+    sorting.value = false
   }
+})
+
+useHead({
+  title: route.params.user
 })
 </script>
 
@@ -64,7 +73,7 @@ watch(sortBy, async (newSort, oldSort) => {
       <Profile />
     </section>
     <section class="user__repos">
-      <div v-if="profileStore.loading.repos" class="loader"></div>
+      <div v-if="profileStore.loading.repos && !sorting" class="loader"></div>
       <div v-else class="repos">
         <Card has-actions>
           <template #actions>
