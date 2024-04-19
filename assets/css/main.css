@@ -1,12 +1,14 @@
 :root {
   --white: hsl(0, 0%, 100%);
   --jet: hsl(120, 1%, 17%);
+  --charcoal: hsl(0, 0%, 12%);
   --dark: hsl(208, 37%, 20%);
   --accent: hsl(228, 64%, 52%);
   --highlight: hsl(228, 64%, 64%);
   --shadow: hsla(0, 0%, 0%, 0.13);
   --lightgrey: hsl(60, 3%, 93%);
   --h3grey: hsl(218, 12%, 64%);
+  --control: hsl(216, 12%, 92%);
   background-color: var(--lightgrey);
   color: var(--jet);
   font-family: "Inter", sans-serif;
@@ -48,7 +50,74 @@ nav {
   padding: 0.3rem 0.6rem;
   border: 1px solid var(--lightgrey);
   border-radius: 6px;
-  box-shadow: hsl(216, 12%, 92%) 0px 1px 3px -1px;
+  box-shadow: var(--control) 0px 1px 3px -1px;
+}
+
+/* Loader */
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 5px;
+  -webkit-animation: load 1.8s ease-in-out infinite;
+  animation: load 1.8s ease-in-out infinite;
+}
+
+.loader:before,
+.loader:after {
+  position: absolute;
+  display: block;
+  content: "";
+  -webkit-animation: load 1.8s ease-in-out infinite;
+  animation: load 1.8s ease-in-out infinite;
+  height: 10px;
+  border-radius: 5px;
+}
+
+.loader:before {
+  top: -20px;
+  left: 10px;
+  width: 40px;
+  background: var(--dark);
+}
+
+.loader:after {
+  bottom: -20px;
+  width: 35px;
+  background: var(--accent);
+}
+
+@-webkit-keyframes load {
+  0% {
+    transform: translateX(40px);
+  }
+
+  50% {
+    transform: translateX(-30px);
+  }
+
+  100% {
+    transform: translateX(40px);
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: translateX(40px);
+  }
+
+  50% {
+    transform: translateX(-30px);
+  }
+
+  100% {
+    transform: translateX(40px);
+  }
 }
 
 /* Button Styles */
