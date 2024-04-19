@@ -1,4 +1,5 @@
 export const useProfileStore = defineStore('profile', () => {
+  const apiBase = 'https://api.github.com/users'
   const profile = ref({})
   const repos = ref([])
   const loading = reactive({
@@ -9,7 +10,8 @@ export const useProfileStore = defineStore('profile', () => {
   async function fetchRepos (user, sort = 'pushed', page = 1) {
     try {
       loading.repos = true
-      const { data } = await useFetch(`https://api.github.com/users/${user}/repos`, {
+
+      const data = await $fetch(`${apiBase}/${user}/repos`, {
         query: {
           per_page: 100,
           page,
@@ -17,9 +19,9 @@ export const useProfileStore = defineStore('profile', () => {
         }
       })
 
-      repos.value = data.value
+      repos.value = data
 
-      return data.value
+      return data
     } catch (err) {
       console.error('Failed to fetch repos', err)
     } finally {
@@ -28,7 +30,7 @@ export const useProfileStore = defineStore('profile', () => {
   }
 
   async function fetchProfile (user) {
-    const { data } = await useFetch(`https://api.github.com/users/${user}`, {
+    const { data } = await useFetch(`${apiBase}/${user}`, {
       pick: [
         'login',
         'location',
