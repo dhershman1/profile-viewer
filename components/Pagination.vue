@@ -71,7 +71,8 @@ function loadPage(val) {
 .pagination__trigger {
   cursor: pointer;
   padding: 0.5rem;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
 }
 
 .active {
