@@ -205,6 +205,8 @@ useHead({
 
 .repos__list {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .repos__item {
@@ -214,12 +216,7 @@ useHead({
 }
 
 .repos__item:first-child {
-  padding-top: 0.5rem;
   border-top: 1px solid var(--lightgrey);
-}
-
-.repos__item:last-child {
-  border-bottom: none;
 }
 
 .filters {
