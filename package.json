@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
-    "animate.css": "^4.1.1",
     "kyanite": "^3.0.0",
     "lucide-vue-next": "^0.368.0",
     "nuxt": "^3.11.2",
@@ -23,7 +22,6 @@
     "vue3-simple-icons": "^11.9.0"
   },
   "devDependencies": {
-    "@formkit/auto-animate": "^0.8.2",
     "@nuxt/eslint": "^0.3.8"
   }
 }
