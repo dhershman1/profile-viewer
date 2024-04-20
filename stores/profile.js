@@ -7,13 +7,13 @@ export const useProfileStore = defineStore('profile', () => {
     repos: false
   })
 
-  async function fetchRepos(user, sort = 'pushed', page = 1) {
+  async function fetchRepos(user, sort = 'pushed', page = 1, perPage = 20) {
     try {
       loading.repos = true
 
       const data = await $fetch(`${apiBase}/${user}/repos`, {
         query: {
-          per_page: 20,
+          per_page: perPage,
           page,
           sort
         }

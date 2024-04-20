@@ -3,7 +3,7 @@ import { fuzzySearch } from 'kyanite'
 import * as icons from 'vue3-simple-icons'
 import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 
-const PER_PAGE = 20
+const perPage = ref(20)
 const route = useRoute()
 const sorting = ref(false)
 const paginating = ref(false)
@@ -21,7 +21,7 @@ catch (err) {
   console.error(err)
 }
 const totalPages = computed(() => {
-  return Math.ceil(profileStore.profile.public_repos / PER_PAGE)
+  return Math.ceil(profileStore.profile.public_repos / perPage.value)
 })
 
 const filteredRepos = computed(() => {
@@ -51,7 +51,7 @@ function getIcon(lang) {
 async function loadRepoPage(page) {
   try {
     paginating.value = true
-    await profileStore.fetchRepos(route.params.user, sortBy.value, page)
+    await profileStore.fetchRepos(route.params.user, sortBy.value, page, perPage.value)
   }
   catch (err) {
     console.error('Failed to load page', err)
@@ -60,6 +60,19 @@ async function loadRepoPage(page) {
     paginating.value = false
   }
 }
+
+watch(perPage, async (newer, old) => {
+  if (old === newer) {
+    return
+  }
+
+  try {
+    await profileStore.fetchRepos(route.params.user, sortBy.value, 1, newer)
+  }
+  catch (err) {
+    console.error('Problem setting per page limit', err)
+  }
+})
 
 watch(sortBy, async (newSort, oldSort) => {
   if (newSort === oldSort) {
@@ -80,7 +93,7 @@ watch(sortBy, async (newSort, oldSort) => {
 })
 
 useHead({
-  title: route.params.user,
+  title: route.params.user
 })
 </script>
 
@@ -95,6 +108,9 @@ useHead({
           <template #actions>
             <div class="filters">
               <section class="filters__sort">
+                <label>
+                  Sort By
+                </label>
                 <select
                   v-model="sortBy"
                   class="control"
@@ -112,6 +128,25 @@ useHead({
                     Name
                   </option>
                 </select>
+              </section>
+              <section class="filters__per-page">
+                <label>
+                  <select
+                    v-model="perPage"
+                    class="control"
+                  >
+                    <option value="10">
+                      10
+                    </option>
+                    <option value="20">
+                      20
+                    </option>
+                    <option value="30">
+                      30
+                    </option>
+                  </select>
+                  Per Page
+                </label>
               </section>
               <section class="filters__search">
                 <input
@@ -272,7 +307,7 @@ useHead({
 
 .filters {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
 }
 
