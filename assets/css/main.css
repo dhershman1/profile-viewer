@@ -209,12 +209,12 @@ nav {
   max-width: 100px;
 }
 
-.card__text {
+.card__extras {
   padding: 1rem;
   width: 100%;
 }
 
-.portfolio .card__text {
+.portfolio .card__extras {
   text-align: left;
 }
 
