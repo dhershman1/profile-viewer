@@ -6,6 +6,7 @@ import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 const PER_PAGE = 20
 const route = useRoute()
 const sorting = ref(false)
+const paginating = ref(false)
 const search = ref('')
 const sortBy = ref('pushed')
 const profileStore = useProfileStore()
@@ -46,6 +47,17 @@ function getIcon (lang) {
   }
 }
 
+async function loadRepoPage (page) {
+  try {
+    paginating.value = true
+    await profileStore.fetchRepos(route.params.user, sortBy.value, page)
+  } catch (err) {
+    console.error('Failed to load page', err)
+  } finally {
+    paginating.value = false
+  }
+}
+
 watch(sortBy, async (newSort, oldSort) => {
   if (newSort === oldSort) {
     return
@@ -73,8 +85,7 @@ useHead({
       <Profile />
     </section>
     <section class="user__repos">
-      <div v-if="profileStore.loading.repos && !sorting" class="loader"></div>
-      <div v-else class="repos">
+      <div class="repos">
         <Card has-actions>
           <template #actions>
             <div class="filters">
@@ -97,7 +108,8 @@ useHead({
             </div>
           </template>
           <template #main>
-            <ul class="repos__list">
+            <div v-if="profileStore.loading.repos && !sorting && !paginating" class="loader"></div>
+            <ul v-else class="repos__list">
               <li
                 class="repos__item"
                 v-for="repo in filteredRepos"
@@ -127,7 +139,10 @@ useHead({
             </ul>
           </template>
           <template #text>
-            TODO: Pagination
+            <Pagination
+              :total-pages="totalPages"
+              @load-page="loadRepoPage"
+            />
           </template>
         </Card>
       </div>

@@ -13,7 +13,7 @@ export const useProfileStore = defineStore('profile', () => {
 
       const data = await $fetch(`${apiBase}/${user}/repos`, {
         query: {
-          per_page: 100,
+          per_page: 20,
           page,
           sort
         }
