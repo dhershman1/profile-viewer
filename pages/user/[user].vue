@@ -80,7 +80,7 @@ useHead({
 <template>
   <div class="user">
     <section class="user__profile">
-      <Profile />
+      <profile />
     </section>
     <section class="user__repos">
       <div class="repos">
@@ -165,7 +165,7 @@ useHead({
                   :repo-desc="repo.description"
                   :pushed-at="useTimeAgo(repo.pushed_at)"
                 />
-                <user-stats
+                <repo-stats
                   :stars="repo.stargazers_count"
                   :forks="repo.forks_count"
                   :issues="repo.open_issues"
@@ -173,7 +173,7 @@ useHead({
               </li>
             </ul>
           </template>
-          <template #text>
+          <template #extras>
             <pagination
               :total-pages="totalPages"
               @load-page="loadRepoPage"
