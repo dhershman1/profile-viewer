@@ -90,7 +90,12 @@ watch(sortBy, async (newSort, oldSort) => {
 })
 
 useHead({
-  title: route.params.user
+  title: route.params.user,
+  meta: [
+    { name: 'description', content: `Check out the public repos of ${route.params.user}` },
+    { property: 'og:description', content: `Check out the public repos of ${route.params.user}` },
+    { property: 'og:image', content: profileStore.profile.avatar_url }
+  ]
 })
 </script>
 
