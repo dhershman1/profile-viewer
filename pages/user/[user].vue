@@ -51,11 +51,9 @@ async function loadRepoPage(page) {
   try {
     prevent.value = true
     await profileStore.fetchRepos(route.params.user, sortBy.value, page, perPage.value)
-  }
-  catch (err) {
+  } catch (err) {
     console.error('Failed to load page', err)
-  }
-  finally {
+  } finally {
     prevent.value = false
   }
 }
@@ -68,11 +66,9 @@ watch(perPage, async (newer, old) => {
   try {
     prevent.value = true
     await profileStore.fetchRepos(route.params.user, sortBy.value, 1, newer)
-  }
-  catch (err) {
+  } catch (err) {
     console.error('Problem setting per page limit', err)
-  }
-  finally {
+  } finally {
     prevent.value = false
   }
 })
@@ -85,9 +81,8 @@ watch(sortBy, async (newSort, oldSort) => {
   try {
     prevent.value = true
     await profileStore.fetchRepos(route.params.user, newSort)
-  }
-  catch (err) {
-    console.error(err)
+  } catch (err) {
+    console.error('Failed to fetch sorted results', err)
   }
   finally {
     prevent.value = false
@@ -145,6 +140,12 @@ useHead({
                     </option>
                     <option value="30">
                       30
+                    </option>
+                    <option value="40">
+                      40
+                    </option>
+                    <option value="50">
+                      50
                     </option>
                   </select>
                   Per Page
