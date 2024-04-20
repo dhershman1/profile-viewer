@@ -93,6 +93,7 @@ const icon = computed(() => {
 .repo__lang-updated {
   display: flex;
   gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .repo__lang-updated p {
