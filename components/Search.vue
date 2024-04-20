@@ -10,7 +10,12 @@ function search () {
 <template>
   <div>
     <form @submit.prevent="search">
-      <input class="control" v-model="userSearch" type="text" />
+      <input
+        class="control"
+        v-model="userSearch"
+        type="text"
+        placeholder="GitHub Username"
+      />
       <button class="btn">Search</button>
     </form>
   </div>

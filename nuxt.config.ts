@@ -4,5 +4,5 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
   devtools: { enabled: true },
-  css: ['animate.css', '~/assets/css/main.css']
+  css: ['animate.css', '~/assets/css/main.css', '~/assets/css/search.css']
 })
