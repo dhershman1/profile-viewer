@@ -67,10 +67,14 @@ watch(perPage, async (newer, old) => {
   }
 
   try {
+    sorting.value = true
     await profileStore.fetchRepos(route.params.user, sortBy.value, 1, newer)
   }
   catch (err) {
     console.error('Problem setting per page limit', err)
+  }
+  finally {
+    sorting.value = false
   }
 })
 
