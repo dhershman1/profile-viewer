@@ -70,6 +70,10 @@ const icon = computed(() => {
 </template>
 
 <style scoped>
+.repo {
+  margin-top: 0.5rem;
+}
+
 .repo__link {
   font-size: 20px;
   font-weight: 500;

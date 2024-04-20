@@ -211,7 +211,6 @@ useHead({
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-bottom: 1px solid var(--lightgrey);
-  margin-top: 0.5rem;
 }
 
 .repos__item:first-child {
