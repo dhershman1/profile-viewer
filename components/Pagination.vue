@@ -35,11 +35,11 @@ function loadPage(val) {
 <template>
   <div class="pagination">
     <button
-      class="pagination__trigger"
+      :class="['pagination__trigger', { disabled: prevBtnDisabled }]"
       :disabled="prevBtnDisabled"
       @click="prevPage"
     >
-      <CircleArrowLeft />
+      <circle-arrow-left />
     </button>
     <button
       v-for="n in totalPages"
@@ -51,11 +51,11 @@ function loadPage(val) {
       {{ n }}
     </button>
     <button
-      class="pagination__trigger"
+      :class="['pagination__trigger', { disabled: nextBtnDisabled }]"
       :disabled="nextBtnDisabled"
       @click="nextPage"
     >
-      <CircleArrowRight />
+      <circle-arrow-right />
     </button>
   </div>
 </template>
@@ -80,5 +80,26 @@ function loadPage(val) {
   border: 1px solid var(--highlight);
   background-color: var(--accent);
   border-radius: 5px;
+}
+
+button {
+  background-color: var(--white);
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--accent);
+  color: var(--white);
+}
+
+button.disabled {
+  cursor: not-allowed;
+}
+
+button.disabled:hover {
+  background-color: transparent;
+  color: #6d6d6d;
 }
 </style>
