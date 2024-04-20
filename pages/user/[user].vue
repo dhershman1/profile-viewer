@@ -5,8 +5,7 @@ import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 
 const perPage = ref(20)
 const route = useRoute()
-const sorting = ref(false)
-const paginating = ref(false)
+const prevent = ref(false)
 const search = ref('')
 const sortBy = ref('pushed')
 const profileStore = useProfileStore()
@@ -50,14 +49,14 @@ function getIcon(lang) {
 
 async function loadRepoPage(page) {
   try {
-    paginating.value = true
+    prevent.value = true
     await profileStore.fetchRepos(route.params.user, sortBy.value, page, perPage.value)
   }
   catch (err) {
     console.error('Failed to load page', err)
   }
   finally {
-    paginating.value = false
+    prevent.value = false
   }
 }
 
@@ -67,14 +66,14 @@ watch(perPage, async (newer, old) => {
   }
 
   try {
-    sorting.value = true
+    prevent.value = true
     await profileStore.fetchRepos(route.params.user, sortBy.value, 1, newer)
   }
   catch (err) {
     console.error('Problem setting per page limit', err)
   }
   finally {
-    sorting.value = false
+    prevent.value = false
   }
 })
 
@@ -83,16 +82,15 @@ watch(sortBy, async (newSort, oldSort) => {
     return
   }
 
-  sorting.value = true
-
   try {
+    prevent.value = true
     await profileStore.fetchRepos(route.params.user, newSort)
   }
   catch (err) {
     console.error(err)
   }
   finally {
-    sorting.value = false
+    prevent.value = false
   }
 })
 
@@ -164,7 +162,7 @@ useHead({
           </template>
           <template #main>
             <div
-              v-if="profileStore.loading.repos && !sorting && !paginating"
+              v-if="profileStore.loading.repos && !prevent"
               class="loader"
             />
             <ul
