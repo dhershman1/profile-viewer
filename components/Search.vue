@@ -2,7 +2,7 @@
 const router = useRouter()
 const userSearch = ref('')
 
-function search () {
+function search() {
   router.push(`/user/${userSearch.value}`)
 }
 </script>
@@ -11,12 +11,14 @@ function search () {
   <div>
     <form @submit.prevent="search">
       <input
-        class="control"
         v-model="userSearch"
+        class="control"
         type="text"
         placeholder="GitHub Username"
-      />
-      <button class="btn">Search</button>
+      >
+      <button class="btn">
+        Search
+      </button>
     </form>
   </div>
 </template>

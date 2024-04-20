@@ -9,7 +9,10 @@ defineProps({
 
 <template>
   <div class="card">
-    <section v-if="$props.hasActions" class="card__actions">
+    <section
+      v-if="$props.hasActions"
+      class="card__actions"
+    >
       <slot name="actions" />
     </section>
     <section class="card__main">

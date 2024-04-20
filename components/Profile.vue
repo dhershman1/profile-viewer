@@ -13,10 +13,17 @@ const memberYear = computed(() => {
     <Card>
       <template #main>
         <div class="name">
-          <img class="avatar" :src="profileStore.profile.avatar_url" alt="Avatar" />
+          <img
+            class="avatar"
+            :src="profileStore.profile.avatar_url"
+            alt="Avatar"
+          >
           <section class="name__heading">
             <h2>{{ profileStore.profile.name }}</h2>
-            <Anchor class="github" :href="profileStore.profile.html_url">
+            <Anchor
+              class="github"
+              :href="profileStore.profile.html_url"
+            >
               <Github class="github__icon" /> {{ profileStore.profile.login }}
             </Anchor>
           </section>
@@ -44,7 +51,12 @@ const memberYear = computed(() => {
             </li>
             <li>
               <h3>Website</h3>
-              <Anchor class="website" :href="profileStore.profile.blog">{{ profileStore.profile.blog }}</Anchor>
+              <Anchor
+                class="website"
+                :href="profileStore.profile.blog"
+              >
+                {{ profileStore.profile.blog }}
+              </Anchor>
             </li>
             <li class="member-since">
               Github member since {{ memberYear }}

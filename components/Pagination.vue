@@ -16,17 +16,17 @@ const nextBtnDisabled = computed(() => {
   return currentPage.value === props.totalPages
 })
 
-function nextPage () {
+function nextPage() {
   currentPage.value += 1
   emit('loadPage', currentPage.value)
 }
 
-function prevPage () {
+function prevPage() {
   currentPage.value -= 1
   emit('loadPage', currentPage.value)
 }
 
-function loadPage (val) {
+function loadPage(val) {
   currentPage.value = val
   emit('loadPage', val)
 }
@@ -36,24 +36,24 @@ function loadPage (val) {
   <div class="pagination">
     <button
       class="pagination__trigger"
-      @click.native="prevPage"
       :disabled="prevBtnDisabled"
+      @click="prevPage"
     >
       <CircleArrowLeft />
     </button>
     <button
-      :class="['pagination__trigger', { active: n === currentPage }]"
       v-for="n in totalPages"
       :key="n"
-      @click="loadPage(n)"
+      :class="['pagination__trigger', { active: n === currentPage }]"
       :disabled="n === currentPage"
+      @click="loadPage(n)"
     >
       {{ n }}
     </button>
     <button
       class="pagination__trigger"
-      @click.native="nextPage"
       :disabled="nextBtnDisabled"
+      @click="nextPage"
     >
       <CircleArrowRight />
     </button>

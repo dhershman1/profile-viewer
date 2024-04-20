@@ -8,7 +8,7 @@ export default function (input) {
     ['days', 3600 * 24],
     ['hours', 3600],
     ['minutes', 60],
-    ['seconds', 1]
+    ['seconds', 1],
   ])
   const secondsElapsed = (date.getTime() - Date.now()) / 1000
 

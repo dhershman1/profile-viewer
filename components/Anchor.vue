@@ -16,7 +16,7 @@ defineProps({
       target="_blank"
       class="link__anchor"
     >
-      <slot></slot> <ArrowUpRight class="link__icon" />
+      <slot /> <ArrowUpRight class="link__icon" />
     </NuxtLink>
   </div>
 </template>

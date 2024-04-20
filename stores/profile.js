@@ -7,7 +7,7 @@ export const useProfileStore = defineStore('profile', () => {
     repos: false
   })
 
-  async function fetchRepos (user, sort = 'pushed', page = 1) {
+  async function fetchRepos(user, sort = 'pushed', page = 1) {
     try {
       loading.repos = true
 
@@ -22,14 +22,16 @@ export const useProfileStore = defineStore('profile', () => {
       repos.value = data
 
       return data
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Failed to fetch repos', err)
-    } finally {
+    }
+    finally {
       loading.repos = false
     }
   }
 
-  async function fetchProfile (user) {
+  async function fetchProfile(user) {
     const { data } = await useFetch(`${apiBase}/${user}`, {
       pick: [
         'login',

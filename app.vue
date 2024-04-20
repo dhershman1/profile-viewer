@@ -3,7 +3,7 @@ const nuxtApp = useNuxtApp()
 const loading = ref(false)
 
 nuxtApp.hook('page:start', () => {
-  loading.value = true;
+  loading.value = true
 })
 
 nuxtApp.hook('page:finish', () => {
@@ -11,7 +11,7 @@ nuxtApp.hook('page:finish', () => {
 })
 
 useHead({
-  titleTemplate: titleChunk => {
+  titleTemplate: (titleChunk) => {
     return titleChunk ? `Profile Viewer - ${titleChunk}` : 'Profile Viewer'
   }
 })
@@ -21,10 +21,15 @@ useHead({
   <div>
     <NuxtLoadingIndicator />
     <nav>
-      <NuxtLink to="/">Github Profile Viewer</NuxtLink>
+      <NuxtLink to="/">
+        Github Profile Viewer
+      </NuxtLink>
       <Search />
     </nav>
-    <div v-if="loading" class="loader"></div>
+    <div
+      v-if="loading"
+      class="loader"
+    />
     <NuxtPage />
   </div>
 </template>

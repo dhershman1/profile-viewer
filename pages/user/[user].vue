@@ -16,7 +16,8 @@ try {
     profileStore.fetchProfile(route.params.user),
     profileStore.fetchRepos(route.params.user, sortBy.value)
   ])
-} catch (err) {
+}
+catch (err) {
   console.error(err)
 }
 const totalPages = computed(() => {
@@ -27,7 +28,7 @@ const filteredRepos = computed(() => {
   return profileStore.repos.filter(({ name }) => fuzzySearch(search.value, name))
 })
 
-function getIcon (lang) {
+function getIcon(lang) {
   // This isn't a great function, we need a better way to dynamically grab icons from simple icons
   if (!lang) {
     return Ban
@@ -47,13 +48,15 @@ function getIcon (lang) {
   }
 }
 
-async function loadRepoPage (page) {
+async function loadRepoPage(page) {
   try {
     paginating.value = true
     await profileStore.fetchRepos(route.params.user, sortBy.value, page)
-  } catch (err) {
+  }
+  catch (err) {
     console.error('Failed to load page', err)
-  } finally {
+  }
+  finally {
     paginating.value = false
   }
 }
@@ -67,15 +70,17 @@ watch(sortBy, async (newSort, oldSort) => {
 
   try {
     await profileStore.fetchRepos(route.params.user, newSort)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
-  } finally {
+  }
+  finally {
     sorting.value = false
   }
 })
 
 useHead({
-  title: route.params.user
+  title: route.params.user,
 })
 </script>
 
@@ -90,36 +95,58 @@ useHead({
           <template #actions>
             <div class="filters">
               <section class="filters__sort">
-                <select class="control" v-model="sortBy">
-                  <option value="pushed">Pushed</option>
-                  <option value="created">Created</option>
-                  <option value="updated">Updated</option>
-                  <option value="full_name">Name</option>
+                <select
+                  v-model="sortBy"
+                  class="control"
+                >
+                  <option value="pushed">
+                    Pushed
+                  </option>
+                  <option value="created">
+                    Created
+                  </option>
+                  <option value="updated">
+                    Updated
+                  </option>
+                  <option value="full_name">
+                    Name
+                  </option>
                 </select>
               </section>
               <section class="filters__search">
                 <input
+                  v-model="search"
                   class="filters__input"
                   type="text"
                   placeholder="Search Repository"
-                  v-model="search"
-                />
+                >
               </section>
             </div>
           </template>
           <template #main>
-            <div v-if="profileStore.loading.repos && !sorting && !paginating" class="loader"></div>
-            <ul v-else class="repos__list">
+            <div
+              v-if="profileStore.loading.repos && !sorting && !paginating"
+              class="loader"
+            />
+            <ul
+              v-else
+              class="repos__list"
+            >
               <li
-                class="repos__item"
                 v-for="repo in filteredRepos"
                 :key="repo.id"
+                class="repos__item"
               >
                 <section class="repo">
-                  <Anchor class="repo__link" :href="repo.html_url">
+                  <Anchor
+                    class="repo__link"
+                    :href="repo.html_url"
+                  >
                     {{ repo.name }}
                   </Anchor>
-                  <p class="repo__description">{{ repo.description }}</p>
+                  <p class="repo__description">
+                    {{ repo.description }}
+                  </p>
                   <div class="repo__lang-updated">
                     <p class="repo__lang">
                       <component :is="getIcon(repo.language)" />
@@ -132,7 +159,7 @@ useHead({
                 </section>
                 <section class="stats">
                   <p><Star /> {{ repo.stargazers_count }} Stars</p>
-                  <p><GitFork/> {{ repo.forks_count }} Forks</p>
+                  <p><GitFork /> {{ repo.forks_count }} Forks</p>
                   <p><CircleDot /> {{ repo.open_issues }} Issues</p>
                 </section>
               </li>
