@@ -1,14 +1,12 @@
 <script setup>
 import { fuzzySearch } from 'kyanite'
-import * as icons from 'vue3-simple-icons'
-import { Ban, Star, GitFork, CircleDot } from 'lucide-vue-next'
 
-const perPage = ref(20)
 const route = useRoute()
+const profileStore = useProfileStore()
+const perPage = ref(20)
 const prevent = ref(false)
 const search = ref('')
 const sortBy = ref('pushed')
-const profileStore = useProfileStore()
 
 try {
   await Promise.all([
@@ -26,26 +24,6 @@ const totalPages = computed(() => {
 const filteredRepos = computed(() => {
   return profileStore.repos.filter(({ name }) => fuzzySearch(search.value, name))
 })
-
-function getIcon(lang) {
-  // This isn't a great function, we need a better way to dynamically grab icons from simple icons
-  if (!lang) {
-    return Ban
-  }
-
-  switch (lang.toLowerCase()) {
-    case 'html':
-      return icons['Html5Icon']
-    case 'css':
-      return icons['Css3Icon']
-    case 'vue':
-      return icons['VueDotjsIcon']
-    case 'apex':
-      return icons['SalesforceIcon']
-    default:
-      return icons[`${lang}Icon`]
-  }
-}
 
 async function loadRepoPage(page) {
   try {
@@ -106,7 +84,7 @@ useHead({
     </section>
     <section class="user__repos">
       <div class="repos">
-        <Card has-actions>
+        <card has-actions>
           <template #actions>
             <div class="filters">
               <section class="filters__sort">
@@ -180,41 +158,28 @@ useHead({
                 :key="repo.id"
                 class="repos__item"
               >
-                <section class="repo">
-                  <Anchor
-                    class="repo__link"
-                    :href="repo.html_url"
-                  >
-                    {{ repo.name }}
-                  </Anchor>
-                  <p class="repo__description">
-                    {{ repo.description }}
-                  </p>
-                  <div class="repo__lang-updated">
-                    <p class="repo__lang">
-                      <component :is="getIcon(repo.language)" />
-                      {{ repo.language }}
-                    </p>
-                    <p class="repo__updated">
-                      Updated {{ useTimeAgo(repo.pushed_at) }}
-                    </p>
-                  </div>
-                </section>
-                <section class="stats">
-                  <p><Star /> {{ repo.stargazers_count }} Stars</p>
-                  <p><GitFork /> {{ repo.forks_count }} Forks</p>
-                  <p><CircleDot /> {{ repo.open_issues }} Issues</p>
-                </section>
+                <user-repo
+                  :lang="repo.language"
+                  :html-url="repo.html_url"
+                  :repo-name="repo.name"
+                  :repo-desc="repo.description"
+                  :pushed-at="useTimeAgo(repo.pushed_at)"
+                />
+                <user-stats
+                  :stars="repo.stargazers_count"
+                  :forks="repo.forks_count"
+                  :issues="repo.open_issues"
+                />
               </li>
             </ul>
           </template>
           <template #text>
-            <Pagination
+            <pagination
               :total-pages="totalPages"
               @load-page="loadRepoPage"
             />
           </template>
-        </Card>
+        </card>
       </div>
     </section>
   </div>
@@ -258,61 +223,6 @@ useHead({
   border-bottom: none;
 }
 
-.repo__link {
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.repo__description {
-  font-size: 14px;
-}
-
-.repo__lang {
-  display: flex;
-  gap: 0.2rem;
-  font-size: 12px;
-}
-
-.repo__lang svg {
-  width: 14px;
-  height: 14px;
-}
-
-.repo__lang-updated {
-  display: flex;
-  gap: 1rem;
-}
-
-.repo__lang-updated p {
-  margin: 0;
-}
-
-.repo__updated {
-  font-size: 12px;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  border-left: 1px solid var(--lightgrey);
-}
-
-.stats p {
-  font-size: 16px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stats p svg {
-  width: 16px;
-  height: 16px;
-  margin-left: 0.2rem;
-  margin-right: 0.2rem;
-}
-
 .filters {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -339,10 +249,6 @@ useHead({
 
   .user__repos {
     width: 100%;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
   }
 }
 </style>
